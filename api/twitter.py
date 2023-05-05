@@ -1,3 +1,15 @@
+from sanic import Sanic
+from sanic.response import json
+app = Sanic()
+ 
+ 
+@app.route('/')
+@app.route('/<path:path>')
+async def index(request, path=""):
+    return json({'hello': path})
+
+
+
 import datetime as dtm
 from typing import Union, cast
 import pytz
@@ -30,33 +42,6 @@ USER_HANDLE_FONT = ImageFont.truetype(FONT_SEMI_BOLD, 23)
 BIG_TEXT_FONT = ImageFont.truetype(FONT_SEMI_BOLD, 70)
 SMALL_TEXT_FONT = ImageFont.truetype(FONT_SEMI_BOLD, 36)
 HYPHENATOR = Hyphenator("en_US")
-
-
-from http.server import BaseHTTPRequestHandler
-import json
- 
-class handler(BaseHTTPRequestHandler):
- 
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header('Content-type','text/plain')
-        self.end_headers()
-        self.wfile.write('Hello, world!'.encode('utf-8'))
-        return
-
-    def do_POST(self):
-        # extract data from the request
-        content_length = int(self.headers['Content-Length'])
-        post_data = self.rfile.read(content_length)
-
-        j = json.loads(post_data)
-        sticker_file = build_sticker(j.get("text", "Hi"), j.get("name", "N/A"), j.get("username", j.get("name", "N/A")), j.get("user_id", "123456"), j.get('timezone', 'UTC'))
-        b = sticker_file.tobytes()
-        self.send_response(200)
-        self.send_header('Content-type','image/png')
-        self.end_headers()
-        self.wfile.write(b)
-        return
 
 
 

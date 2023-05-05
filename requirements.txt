@@ -1,3 +1,4 @@
 Pillow~=9.5
 PyHyphen==4.0.3
 pytz
+sanic==19.6.0
